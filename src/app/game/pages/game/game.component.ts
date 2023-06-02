@@ -59,6 +59,7 @@ export class GameComponent implements OnInit {
   onSelect(pokemonName: string) {
     this._pokemonSelected = pokemonName;
     this._selected = true;
+    this.getPokemonInfo(pokemonName);
 
     if (pokemonName === this._pokemon.name) {
       this.playerService.increasePoints();
@@ -68,9 +69,13 @@ export class GameComponent implements OnInit {
       this.playerService.decreaseLifes();
       console.log('incorrect');
     }
-    
-  }
 
+  }
+  //Fem que quan es seleccioni el pokemon ens doni el seu nom i el seu color pero en contes de fero en un nou component ho he fet en el mateix
+  async getPokemonInfo(pokemonName: string) {
+    const url = `https://pokeapi.co/api/v2/pokemon-species/${pokemonName}`;
+    this.pokemonInfo = await this.http.get(url).toPromise();
+  }
   // this function es execute every time that user click in next game
   async newGame() {
 
@@ -88,5 +93,4 @@ export class GameComponent implements OnInit {
       this.loaded = true;
     }
   }
-
 }
